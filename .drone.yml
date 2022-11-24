@@ -7,8 +7,7 @@ steps:
   - name: test
     image: golang:1.17
     commands:
-      - go build
-      - go test
+      - go test ./...
 
 trigger:
   branch:
