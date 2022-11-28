@@ -10,7 +10,10 @@ steps:
   #      - go test ./...
   # Build
   - name: build
-    image: docker
+    image: docker:dind
+    volumes:
+        - name: dockersock
+          path: /var/run
     environment:
       HARBOR_BASE:
         from_secret: harborBase
@@ -31,6 +34,17 @@ steps:
       # Cleaning
       - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
       - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
+services:
+  - name: docker
+    image: docker:dind
+    privileged: true
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+volumes:
+  - name: dockersock
+    temp: {}
 
 trigger:
   branch:
