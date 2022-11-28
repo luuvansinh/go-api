@@ -22,6 +22,7 @@ steps:
         from_secret: harborPassword
     commands:
       # Login Harbor
+      - docker ps -a
       - docker login -u $HARBOR_ROBOT_NAME -p $HARBOR_ROBOT_TOKEN $HARBOR_BASE
       # Build
       - docker build -f Dockerfile -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA} .
