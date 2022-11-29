@@ -21,8 +21,8 @@ steps:
       HARBOR_ROBOT_TOKEN:
         from_secret: harborPassword
     settings:
-      username: HARBOR_ROBOT_NAME
-      password: HARBOR_ROBOT_TOKEN
+      username: robot$dev
+      password: NtNohYPmVrlef3QI3TehEAxqr42fTaYD
       repo: core-harbor.selly.services/dev/go-api
       registry: core-harbor.selly.services
       tags:
