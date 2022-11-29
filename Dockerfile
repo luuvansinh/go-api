@@ -1,4 +1,6 @@
-FROM golang:1.17 as buider
+FROM golang:1.17 as builder
+
+LABEL maintainer="Search Service <dev@cashbag.vn>"
 
 WORKDIR /app
 
@@ -24,4 +26,4 @@ WORKDIR /app
 COPY --from=builder /app .
 
 # Command to run the executable
-CMD ["./cmd/api/main"]
+CMD ["./main"]
