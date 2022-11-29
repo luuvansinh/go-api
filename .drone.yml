@@ -4,33 +4,43 @@ type: kubernetes
 name: default
 
 steps:
-  #  - name: test
-  #    image: golang:1.17
-  #    commands:
-  #      - go test ./...
-  # Build
-  - name: build
-    image: cashbag/ubuntu:20.04
-    environment:
-      HARBOR_BASE:
-        from_secret: harborBase
-      HARBOR_PROJECT:
-        from_secret: harborProject
-      HARBOR_ROBOT_NAME:
-        from_secret: harborUsername
-      HARBOR_ROBOT_TOKEN:
-        from_secret: harborPassword
+  - name: test
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run
     commands:
-      # Login Harbor
+      - sleep 5 # give docker enough time to start
       - docker ps -a
-      - docker login -u $HARBOR_ROBOT_NAME -p $HARBOR_ROBOT_TOKEN $HARBOR_BASE
-      # Build
-      - docker build -f Dockerfile -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA} .
-      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
-      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
-      # Cleaning
-      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
-      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
+
+#steps:
+#  #  - name: test
+#  #    image: golang:1.17
+#  #    commands:
+#  #      - go test ./...
+#  # Build
+#  - name: build
+#    image: cashbag/ubuntu:20.04
+#    environment:
+#      HARBOR_BASE:
+#        from_secret: harborBase
+#      HARBOR_PROJECT:
+#        from_secret: harborProject
+#      HARBOR_ROBOT_NAME:
+#        from_secret: harborUsername
+#      HARBOR_ROBOT_TOKEN:
+#        from_secret: harborPassword
+#    commands:
+#      # Login Harbor
+#      - docker ps -a
+#      - docker login -u $HARBOR_ROBOT_NAME -p $HARBOR_ROBOT_TOKEN $HARBOR_BASE
+#      # Build
+#      - docker build -f Dockerfile -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA} .
+#      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
+#      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
+#      # Cleaning
+#      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
+#      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
 services:
   - name: docker
     image: docker:dind
