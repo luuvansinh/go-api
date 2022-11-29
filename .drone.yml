@@ -10,7 +10,7 @@ steps:
   #      - go test ./...
   # Build
   - name: build
-    image: cashbag/ubuntu:20.04
+    image: plugins/docker
     environment:
       HARBOR_BASE:
         from_secret: harborBase
@@ -22,7 +22,7 @@ steps:
         from_secret: harborPassword
     commands:
       # Login Harbor
-      - sleep 5s
+      - echo "hello"
       - docker ps -a
       - docker login -u $HARBOR_ROBOT_NAME -p $HARBOR_ROBOT_TOKEN $HARBOR_BASE
       # Build
