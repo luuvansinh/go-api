@@ -10,10 +10,7 @@ steps:
   #      - go test ./...
   # Build
   - name: build
-    image: docker:dind
-    volumes:
-        - name: dockersock
-          path: /var/run
+    image: cashbag/ubuntu:20.04
     environment:
       HARBOR_BASE:
         from_secret: harborBase
