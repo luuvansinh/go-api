@@ -21,10 +21,10 @@ steps:
       HARBOR_ROBOT_TOKEN:
         from_secret: harborPassword
     settings:
-      username: robot$dev
-      password: NtNohYPmVrlef3QI3TehEAxqr42fTaYD
-      repo: core-harbor.selly.services/dev/go-api
-      registry: core-harbor.selly.services
+      username: HARBOR_ROBOT_NAME
+      password: HARBOR_ROBOT_TOKEN
+      repo: HARBOR_BASE/HARBOR_PROJECT/go-api
+      registry: HARBOR_BASE
       tags:
         - latest
         - ${DRONE_COMMIT_SHA}
