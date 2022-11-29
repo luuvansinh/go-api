@@ -1,9 +1,7 @@
 ---
 kind: pipeline
-type: kubernetes
+type: docker
 name: default
-metadata:
-  namespace: drone
 #
 #steps:
 #  - name: test
