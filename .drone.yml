@@ -6,9 +6,9 @@ name: default
 steps:
   - name: test
     image: alpine
-    volumes:
-      - name: dockersock
-        path: /var/run/
+#    volumes:
+#      - name: dockersock
+#        path: /var/run/
     commands:
       - echo "hello"
 
