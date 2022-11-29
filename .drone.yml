@@ -1,33 +1,43 @@
 ---
 kind: pipeline
-type: docker
+type: kubernetes
 name: default
+metadata:
+  namespace: drone
 
 steps:
-  #  - name: test
-  #    image: golang:1.17
-  #    commands:
-  #      - go test ./...
+  - name: test
+    image: docker:dind
+    volumes:
+      - name: dockersock
+        path: /var/run/
+    commands:
+      - docker ps -a
+
+volumes:
+  - name: dockersock
+    host:
+      path: /var/run/
   # Build
-  - name: build
-    image: plugins/docker
-    environment:
-      HARBOR_BASE:
-        from_secret: harborBase
-      HARBOR_PROJECT:
-        from_secret: harborProject
-      HARBOR_ROBOT_NAME:
-        from_secret: harborUsername
-      HARBOR_ROBOT_TOKEN:
-        from_secret: harborPassword
-    settings:
-      username: robot$dev
-      password: NtNohYPmVrlef3QI3TehEAxqr42fTaYD
-      repo: core-harbor.selly.services/dev/go-api
-      registry: core-harbor.selly.services
-      tags:
-        - latest
-        - ${DRONE_COMMIT_SHA}
+#  - name: build
+#    image: plugins/docker
+#    environment:
+#      HARBOR_BASE:
+#        from_secret: harborBase
+#      HARBOR_PROJECT:
+#        from_secret: harborProject
+#      HARBOR_ROBOT_NAME:
+#        from_secret: harborUsername
+#      HARBOR_ROBOT_TOKEN:
+#        from_secret: harborPassword
+#    settings:
+#      username: robot$dev
+#      password: NtNohYPmVrlef3QI3TehEAxqr42fTaYD
+#      repo: core-harbor.selly.services/dev/go-api
+#      registry: core-harbor.selly.services
+#      tags:
+#        - latest
+#        - ${DRONE_COMMIT_SHA}
 #    commands:
 #      # Login Harbor
 #      - echo "hello"
