@@ -1,0 +1,70 @@
+---
+kind: pipeline
+type: kubernetes
+name: default
+
+steps:
+  # Build
+  - name: build
+    image: plugins/docker
+    environment:
+      HARBOR_BASE:
+        from_secret: harborBase
+      HARBOR_PROJECT:
+        from_secret: harborProject
+      HARBOR_ROBOT_NAME:
+        from_secret: harborUsername
+      HARBOR_ROBOT_TOKEN:
+        from_secret: harborPassword
+#    settings:
+#      username: robot$dev
+#      password: NtNohYPmVrlef3QI3TehEAxqr42fTaYD
+#      repo: core-harbor.selly.services/dev/go-api
+#      registry: core-harbor.selly.services
+#      tags:
+#        - latest
+#        - ${DRONE_COMMIT_SHA}
+    commands:
+      # Login Harbor
+      - echo "hello"
+#      - docker ps -a
+#      - docker login -u $HARBOR_ROBOT_NAME -p $HARBOR_ROBOT_TOKEN $HARBOR_BASE
+#      # Build
+#      - docker build -f Dockerfile -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA} .
+#      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
+#      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
+#      # Cleaning
+#      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
+#      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
+
+trigger:
+  branch:
+    - develop
+    - release
+
+---
+kind: secret
+name: harborUsername
+get:
+  path: drone
+  name: harborUsername
+
+---
+kind: secret
+name: harborPassword
+get:
+  path: drone
+  name: harborPassword
+---
+kind: secret
+name: harborBase
+get:
+  path: drone
+  name: harborBase
+---
+kind: secret
+name: harborProject
+get:
+  path: drone
+  name: harborProject
+
