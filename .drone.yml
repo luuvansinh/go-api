@@ -22,6 +22,7 @@ steps:
         from_secret: harborPassword
     commands:
       # Login Harbor
+      - sleep 5s
       - docker ps -a
       - docker login -u $HARBOR_ROBOT_NAME -p $HARBOR_ROBOT_TOKEN $HARBOR_BASE
       # Build
@@ -31,17 +32,6 @@ steps:
       # Cleaning
       - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
       - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
-services:
-  - name: docker
-    image: docker:dind
-    privileged: false
-    volumes:
-      - name: dockersock
-        path: /var/run
-
-volumes:
-  - name: dockersock
-    temp: {}
 
 trigger:
   branch:
