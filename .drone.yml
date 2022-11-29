@@ -20,18 +20,26 @@ steps:
         from_secret: harborUsername
       HARBOR_ROBOT_TOKEN:
         from_secret: harborPassword
-    commands:
-      # Login Harbor
-      - echo "hello"
-      - docker ps -a
-      - docker login -u $HARBOR_ROBOT_NAME -p $HARBOR_ROBOT_TOKEN $HARBOR_BASE
-      # Build
-      - docker build -f Dockerfile -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA} .
-      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
-      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
-      # Cleaning
-      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
-      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
+    settings:
+      username: $HARBOR_ROBOT_NAME
+      password: $HARBOR_ROBOT_TOKEN
+      repo: $HARBOR_BASE/$HARBOR_PROJECT/go-api
+      registry: $HARBOR_BASE
+      tags:
+        - latest
+        - ${DRONE_COMMIT_SHA}
+#    commands:
+#      # Login Harbor
+#      - echo "hello"
+#      - docker ps -a
+#      - docker login -u $HARBOR_ROBOT_NAME -p $HARBOR_ROBOT_TOKEN $HARBOR_BASE
+#      # Build
+#      - docker build -f Dockerfile -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest -t $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA} .
+#      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
+#      - docker push $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
+#      # Cleaning
+#      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:latest
+#      - docker rmi $HARBOR_BASE/$HARBOR_PROJECT/go-api:${DRONE_COMMIT_SHA}
 
 trigger:
   branch:
