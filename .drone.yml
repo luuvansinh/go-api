@@ -1,9 +1,9 @@
-#---
-#kind: pipeline
-#type: kubernetes
-#name: default
-#metadata:
-#  namespace: drone
+---
+kind: pipeline
+type: kubernetes
+name: default
+metadata:
+  namespace: drone
 #
 #steps:
 #  - name: test
@@ -81,10 +81,7 @@
 #get:
 #  path: drone
 #  name: harborProject
----
-kind: pipeline
-type: kubernetes
-name: default
+
 
 steps:
   - name: test
