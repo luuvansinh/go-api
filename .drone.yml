@@ -5,12 +5,12 @@ name: default
 
 steps:
   - name: test
-    image: docker:dind
+    image: alpine
     volumes:
       - name: dockersock
         path: /var/run/
     commands:
-      - docker ps -a
+      - echo "hello"
 
 volumes:
   - name: dockersock
